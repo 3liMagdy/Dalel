@@ -16,7 +16,7 @@ class OnBoardingWidgetBody extends StatelessWidget {
           const SizedBox(height: 40),
           CustomNavBar(onTap: () {}),
           CustomPageView(controller: pageController),
-           const SizedBox(height: 88),
+          
          
           CustomBottomBar(onTap: () {},),
         ],

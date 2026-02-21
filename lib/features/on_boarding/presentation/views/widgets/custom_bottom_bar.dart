@@ -10,12 +10,9 @@ class CustomBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 0),
-      child: CustomBtn(
-        text: AppStrings.next,
-        onPressed: onTap,
-      ),
+    return CustomBtn(
+      text: AppStrings.next,
+      onPressed: onTap,
     );
   }
 }

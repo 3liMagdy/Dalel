@@ -4,7 +4,6 @@ import 'package:dalel/core/routes/app_router.dart';
 import 'package:dalel/core/utils/app_string.dart';
 import 'package:dalel/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -31,5 +30,5 @@ class _SplashViewState extends State<SplashView> {
 
 void delay_navigate(context) {
    Future.delayed(const Duration(seconds: 2),
-     () => customNavigate(context, AppRouter.konBoardingRoute));
+     () => customNavigatepushReplacement(context, AppRouter.konBoardingRoute));
 }

@@ -15,7 +15,7 @@ class CustomPageView extends StatelessWidget {
       final width = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      height: height * 0.6,
+      height: height * 0.75,
       child: PageView.builder(
         onPageChanged: onPageChanged,
         physics: const BouncingScrollPhysics(),
@@ -48,7 +48,7 @@ class CustomPageView extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               const CustomSectionText(),
-              const SizedBox(height: 24),
+              
             ],
           );
         },
