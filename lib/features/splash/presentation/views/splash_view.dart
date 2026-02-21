@@ -3,6 +3,7 @@ import 'package:dalel/core/database/cache/cacheKeys.dart';
 import 'package:dalel/core/database/cache/cache_helper.dart';
 import 'package:dalel/core/functions/navigation.dart';
 import 'package:dalel/core/routes/app_router.dart';
+import 'package:dalel/core/services/service_locator.dart';
 import 'package:dalel/core/utils/app_string.dart';
 import 'package:dalel/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -39,9 +40,8 @@ class _SplashViewState extends State<SplashView> {
   Future<void> _checkOnBoarding() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final visited = CacheHelper.sharedPreferences
-            .getBool(CacheKeys.onBoardingVisited) ??
-        false;
+    final visited = getIt<CacheHelper>()
+      .getBool(key: CacheKeys.onBoardingVisited);
 
     if (!mounted) return;
 

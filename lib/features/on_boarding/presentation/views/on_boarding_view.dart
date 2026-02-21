@@ -1,5 +1,6 @@
 import 'package:dalel/core/database/cache/cache_helper.dart';
 import 'package:dalel/core/routes/app_router.dart';
+import 'package:dalel/core/services/service_locator.dart';
 import 'package:dalel/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:dalel/features/on_boarding/presentation/cubit/on_boarding_state.dart';
 import 'package:dalel/features/on_boarding/presentation/views/widgets/on_boarding_widget_body.dart';
@@ -13,7 +14,7 @@ class OnBoardingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => OnBoardingCubit(pagesCount: 3,cacheHelper: CacheHelper()),
+      create: (_) => OnBoardingCubit(pagesCount: 3,),
       child: BlocListener<OnBoardingCubit, OnBoardingState>(
         listenWhen: (previous, current) =>
             previous.navigation != current.navigation &&

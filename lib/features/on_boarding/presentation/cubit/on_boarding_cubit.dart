@@ -1,5 +1,6 @@
 import 'package:dalel/core/database/cache/cacheKeys.dart';
 import 'package:dalel/core/database/cache/cache_helper.dart';
+import 'package:dalel/core/services/service_locator.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,12 +10,12 @@ import 'on_boarding_state.dart';
 class OnBoardingCubit extends Cubit<OnBoardingState> {
   final PageController _pageController;
   final int pagesCount;
-  final CacheHelper cacheHelper;
+  
 
   PageController get pageController => _pageController;
 
   OnBoardingCubit({
-    required this.cacheHelper,
+   
     this.pagesCount = 3,
   })  : _pageController = PageController(),
         super(const OnBoardingState()) {
@@ -54,7 +55,7 @@ class OnBoardingCubit extends Cubit<OnBoardingState> {
   }
 
   Future<void> _completeOnBoarding() async {
-    await cacheHelper.saveData(
+    await getIt<CacheHelper>().saveData(
       key: CacheKeys.onBoardingVisited,
       value: true,
     );

@@ -5,7 +5,7 @@ class CacheHelper {
   static late SharedPreferences sharedPreferences;
 
   //! Initialize cache. Call once before runApp
-  static Future<void> init() async {
+   init() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
@@ -16,6 +16,9 @@ class CacheHelper {
   }) {
     return sharedPreferences.getString(key);
   }
+  bool getBool({required String key}) {
+  return sharedPreferences.getBool(key) ?? false;
+}
 
 //! this method to put data in local database using key
 
