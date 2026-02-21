@@ -67,7 +67,6 @@ flutter:
     - family: Pacifico
       fonts:
         - asset: Assets/fonts/Pacifico-Regular.ttf
-  fonts:
     - family: Poppins
       fonts:
         - asset: Assets/fonts/Poppins-Regular.ttf

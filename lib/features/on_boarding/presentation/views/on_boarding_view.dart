@@ -8,8 +8,10 @@ class OnBoardingView extends StatelessWidget {
   final PageController pageController = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:OnBoardingWidgetBody(pageController: pageController),
+    return SafeArea(
+      child: Scaffold(
+        body:OnBoardingWidgetBody(pageController: pageController),
+      ),
     );
   }
 }
