@@ -1,3 +1,5 @@
+import 'package:dalel/core/database/cache/cacheKeys.dart';
+import 'package:dalel/core/database/cache/cache_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,13 +9,15 @@ import 'on_boarding_state.dart';
 class OnBoardingCubit extends Cubit<OnBoardingState> {
   final PageController _pageController;
   final int pagesCount;
+  final CacheHelper cacheHelper;
 
   PageController get pageController => _pageController;
 
-  OnBoardingCubit({this.pagesCount = 3})
-      : _pageController = PageController(),
-        super(OnBoardingState()) {
-    // initialize isLastPage based on initial page
+  OnBoardingCubit({
+    required this.cacheHelper,
+    this.pagesCount = 3,
+  })  : _pageController = PageController(),
+        super(const OnBoardingState()) {
     _emitPageState(0);
   }
 
@@ -22,32 +26,42 @@ class OnBoardingCubit extends Cubit<OnBoardingState> {
     emit(state.copyWith(currentPage: page, isLastPage: last));
   }
 
-  /// Called by the PageView when the page changes (swipe)
   void onPageChanged(int page) => _emitPageState(page);
 
-  /// Go to the next page if not last; otherwise emit navigation to sign-up
   Future<void> next() async {
     if (!state.isLastPage) {
       final nextPage = state.currentPage + 1;
-      try {
-        await _pageController.animateToPage(nextPage,
-            duration: const Duration(milliseconds: 300), curve: Curves.ease);
-      } catch (_) {}
+      await _pageController.animateToPage(
+        nextPage,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
       _emitPageState(nextPage);
     } else {
-      // On finishing onboarding we prefer sign-up as default
+      await _completeOnBoarding();
       emit(state.copyWith(navigation: OnBoardingNavigation.signUp));
     }
   }
 
-  /// User tapped skip -> request sign-up navigation
-  void skip() => emit(state.copyWith(navigation: OnBoardingNavigation.signUp));
+  Future<void> skip() async {
+    await _completeOnBoarding();
+    emit(state.copyWith(navigation: OnBoardingNavigation.signUp));
+  }
 
-  /// User tapped login -> request sign-in navigation
-  void login() => emit(state.copyWith(navigation: OnBoardingNavigation.signIn));
+  Future<void> login() async {
+    await _completeOnBoarding();
+    emit(state.copyWith(navigation: OnBoardingNavigation.signIn));
+  }
 
-  /// Clear navigation intent after UI handled navigation
-  void clearNavigation() => emit(state.copyWith(navigation: OnBoardingNavigation.none));
+  Future<void> _completeOnBoarding() async {
+    await cacheHelper.saveData(
+      key: CacheKeys.onBoardingVisited,
+      value: true,
+    );
+  }
+
+  void clearNavigation() =>
+      emit(state.copyWith(navigation: OnBoardingNavigation.none));
 
   @override
   Future<void> close() {
