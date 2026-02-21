@@ -5,15 +5,16 @@ class CustomSectionText extends StatelessWidget {
 
 
   const CustomSectionText({
-    super.key,
+    super.key,  required this.title, required this.subTitle,
   });
-
+final String title;
+  final String subTitle;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
              Text(
-               "Explore The history with Dalel in a smart way",
+               title,
                 style: CustomTextStyles.poppins500style24
                     .copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
@@ -22,7 +23,7 @@ class CustomSectionText extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                "Using our app's history libraries you can find many historical periods",
+                subTitle,
                 style: CustomTextStyles.poppins300style16,
                 textAlign: TextAlign.center,
                 maxLines: 2,
