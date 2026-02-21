@@ -1,59 +1,48 @@
-import 'package:dalel/core/utils/app_assets.dart';
 import 'package:dalel/features/on_boarding/data/models/on_boarding_model.dart';
 import 'package:dalel/features/on_boarding/presentation/views/widgets/custom_section_text.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:dalel/core/utils/app_colors.dart';
 
 class CustomPageView extends StatelessWidget {
-  const CustomPageView({super.key, required this.controller, this.onPageChanged});
+  const CustomPageView({
+    super.key,
+    required this.controller,
+    required this.onPageChanged,
+  });
+
   final PageController controller;
-  final Function(int)? onPageChanged;
+  final Function(int) onPageChanged;
 
   @override
   Widget build(BuildContext context) {
-     final height = MediaQuery.of(context).size.height;
-      final width = MediaQuery.of(context).size.width;
+    return PageView.builder(
+      controller: controller,
+      onPageChanged: onPageChanged,
+      itemCount: onBoardingData.length,
+      itemBuilder: (context, index) {
+        final item = onBoardingData[index];
 
-    return SizedBox(
-      height: height * 0.75,
-      child: PageView.builder(
-        onPageChanged: onPageChanged,
-        physics: const BouncingScrollPhysics(),
-        controller: controller,
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Container(
-                height: height * 0.36,
-                width: width * 0.95,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      onBoardingData[index].imagePath,
-                    ),
-                    fit: BoxFit.fill,
-                  ),
-                ),
+        return Column(
+          children: [
+            Expanded(
+              child: Image.asset(
+                item.imagePath,
+                fit: BoxFit.contain,
               ),
-              const SizedBox(height: 24),
-              SmoothPageIndicator(
-                controller: controller,
-                count: 3,
-                effect: ExpandingDotsEffect(
-                  activeDotColor: AppColors.deepBrown, 
-                  dotHeight: 7,
-                  dotWidth: 10,
-                ),
-              ),
-              const SizedBox(height: 32),
-              CustomSectionText(title:  onBoardingData[index].title,subTitle:  onBoardingData[index].subTitle,),
-              
-            ],
-          );
-        },
-      ),
+            ),
+            const SizedBox(height: 16),
+            SmoothPageIndicator(
+              controller: controller,
+              count: onBoardingData.length,
+            ),
+            const SizedBox(height: 24),
+            CustomSectionText(
+              title: item.title,
+              subTitle: item.subTitle,
+            ),
+          ],
+        );
+      },
     );
   }
 }

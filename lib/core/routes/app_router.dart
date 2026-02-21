@@ -1,6 +1,8 @@
 
 
 
+import 'package:dalel/features/auth/presentation/view/sign_in_view.dart';
+import 'package:dalel/features/auth/presentation/view/sign_up_view.dart';
 import 'package:dalel/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:dalel/features/splash/presentation/views/splash_view.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,8 @@ import 'package:go_router/go_router.dart';
 abstract class AppRouter {
   static const String ksplashRoute = "/";
   static const String konBoardingRoute = "/onBoarding";
+  static const String kSignUpRoute = "/signUp";
+static const String kSignInRoute = "/signIn";
 }
 final GoRouter router = GoRouter(
   routes: [
@@ -19,6 +23,14 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: AppRouter.konBoardingRoute,
       builder: (context, state) =>  OnBoardingView(),
+    ),
+      GoRoute(
+      path: AppRouter.kSignUpRoute,
+      builder: (context, state) => const SignUpView(),
+    ),
+    GoRoute(
+      path: AppRouter.kSignInRoute,
+      builder: (context, state) => const SignInView(),
     ),
     ]
     );

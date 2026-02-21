@@ -1,33 +1,36 @@
-
-
+import 'package:dalel/core/routes/app_router.dart';
+import 'package:dalel/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:dalel/features/on_boarding/presentation/cubit/on_boarding_state.dart';
 import 'package:dalel/features/on_boarding/presentation/views/widgets/on_boarding_widget_body.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class OnBoardingView extends StatefulWidget {
-   OnBoardingView({super.key});
-
-  @override
-  State<OnBoardingView> createState() => _OnBoardingViewState();
-}
-
-class _OnBoardingViewState extends State<OnBoardingView> {
-late final PageController pageController;    @override
-  void initState() {
-    super.initState();
-    pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
+class OnBoardingView extends StatelessWidget {
+  const OnBoardingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body:OnBoardingWidgetBody(pageController: pageController),
+    return BlocProvider(
+      create: (_) => OnBoardingCubit(pagesCount: 3),
+      child: BlocListener<OnBoardingCubit, OnBoardingState>(
+        listenWhen: (previous, current) =>
+            previous.navigation != current.navigation &&
+            current.navigation != OnBoardingNavigation.none,
+        listener: (context, state) {
+          if (state.navigation == OnBoardingNavigation.signUp) {
+            context.go(AppRouter.kSignUpRoute);
+          } else if (state.navigation == OnBoardingNavigation.signIn) {
+            context.go(AppRouter.kSignInRoute);
+          }
+
+          context.read<OnBoardingCubit>().clearNavigation();
+        },
+        child: const Scaffold(
+          body: SafeArea(
+            child: OnBoardingWidgetBody(),
+          ),
+        ),
       ),
     );
   }
