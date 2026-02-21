@@ -1,4 +1,5 @@
 import 'package:dalel/core/utils/app_assets.dart';
+import 'package:dalel/features/on_boarding/data/models/on_boarding_model.dart';
 import 'package:dalel/features/on_boarding/presentation/views/widgets/custom_section_text.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -30,7 +31,7 @@ class CustomPageView extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                      AppAssets.onBoarding1,
+                      onBoardingData[index].imagePath,
                     ),
                     fit: BoxFit.fill,
                   ),
@@ -41,13 +42,13 @@ class CustomPageView extends StatelessWidget {
                 controller: controller,
                 count: 3,
                 effect: ExpandingDotsEffect(
-                  activeDotColor: AppColors.deepBrown,
+                  activeDotColor: AppColors.deepBrown, 
                   dotHeight: 7,
                   dotWidth: 10,
                 ),
               ),
               const SizedBox(height: 32),
-              const CustomSectionText(),
+              CustomSectionText(title:  onBoardingData[index].title,subTitle:  onBoardingData[index].subTitle,),
               
             ],
           );
