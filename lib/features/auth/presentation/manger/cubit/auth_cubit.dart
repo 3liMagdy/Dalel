@@ -26,6 +26,11 @@ class AuthCubit extends Cubit<AuthState> {
  void togglePasswordVisibility() {
   emit(state.copyWith(isPasswordValid: !state.isPasswordValid));
 }
+
+ void clearError() {
+    emit(state.copyWith(errorMessage: null));
+  }
+
   // --------------------------
   // Sign Up
   // --------------------------

@@ -3,6 +3,7 @@ abstract class AppStrings {
 
   static const String appName = "Dalel",
       //!On Boarding Strings
+      signUpSuccess = "Account Created Successfully",
       skip = "Skip",
       next = "Next",
       createAccount = "Create Account",

@@ -1,5 +1,7 @@
 
 
+import 'package:dalel/core/functions/navigation.dart';
+import 'package:dalel/core/routes/app_router.dart';
 import 'package:dalel/core/utils/app_string.dart';
 import 'package:dalel/features/auth/presentation/widgets/custom_signup_form.dart';
 import 'package:dalel/features/auth/presentation/widgets/have_an_account_widget.dart';
@@ -28,7 +30,9 @@ class SignUpView extends StatelessWidget {
               child: HaveAnAccountWidget(
                 text1: AppStrings.alreadyHaveAnAccount,
                 text2: AppStrings.signIn,
-                onTap: () {},
+                onTap: () {
+                    customNavigatepushReplacement(context, AppRouter.kSignInRoute);
+                },
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),

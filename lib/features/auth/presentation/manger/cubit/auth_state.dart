@@ -15,20 +15,21 @@ class AuthState extends Equatable {
     this.isPasswordValid = false,
   });
 
-  AuthState copyWith({
-    bool? isLoading,
-    bool? isSuccess,
-    String? errorMessage,
-    bool? isTermsAccepted,  bool?isPasswordValid,
-  }) {
-    return AuthState(
-      isLoading: isLoading ?? this.isLoading,
-      isSuccess: isSuccess ?? this.isSuccess,
-      errorMessage: errorMessage,
-      isTermsAccepted: isTermsAccepted ?? this.isTermsAccepted,
-      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
-    );
-  }
+AuthState copyWith({
+  bool? isLoading,
+  bool? isSuccess,
+  String? errorMessage,
+  bool? isTermsAccepted,
+  bool? isPasswordValid,
+}) {
+  return AuthState(
+    isLoading: isLoading ?? this.isLoading,
+    isSuccess: isSuccess ?? this.isSuccess,
+    errorMessage: errorMessage ?? this.errorMessage,
+    isTermsAccepted: isTermsAccepted ?? this.isTermsAccepted,
+    isPasswordValid: isPasswordValid ?? this.isPasswordValid,
+  );
+}
 
   @override
   List<Object?> get props =>
