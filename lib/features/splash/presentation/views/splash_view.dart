@@ -47,7 +47,7 @@ class _SplashViewState extends State<SplashView> {
 
     // Use GoRouter's `go` to replace the stack.
     if (visited) {
-      context.go(AppRouter.kSignInRoute);
+      context.go(AppRouter.kSignUpRoute);
     } else {
       context.go(AppRouter.konBoardingRoute);
     }
