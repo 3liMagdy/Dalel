@@ -1,3 +1,4 @@
+import 'package:dalel/core/utils/app_colors.dart';
 import 'package:dalel/core/utils/app_string.dart';
 import 'package:dalel/core/widgets/custom_btn.dart';
 import 'package:dalel/features/auth/presentation/manger/cubit/auth_cubit.dart';
@@ -13,21 +14,23 @@ class CustomSignUpForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage)),
-          );
+        if (state.errorMessage != null) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errorMessage ?? "")));
         }
       },
       builder: (context, state) {
-          AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
+        AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
         return Form(
+          key: authCubit.signupFormKey,
+
           child: Column(
             children: [
               CustomTextFormField(
                 labelText: AppStrings.fristName,
                 onChanged: (fristName) {
-                  authCubit.fristName = fristName;
+                  authCubit.firstName = fristName;
                 },
               ),
               CustomTextFormField(
@@ -43,17 +46,35 @@ class CustomSignUpForm extends StatelessWidget {
                 },
               ),
               CustomTextFormField(
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.visibility),
+                  onPressed: () {
+                    authCubit.togglePasswordVisibility();
+                  },
+                ),
                 labelText: AppStrings.password,
                 onChanged: (password) {
                   authCubit.password = password;
                 },
               ),
               const TermsAndConditionWidget(),
-          
+
               const SizedBox(height: 88),
-              CustomBtn(onPressed: () {
-                authCubit.signUpWithEmailAndPassword();
-              }, text: AppStrings.signUp),
+
+              (state.isLoading)
+                  ? CircularProgressIndicator(color: AppColors.primaryColor)
+                  : CustomBtn(
+                      color: !state.isTermsAccepted ? AppColors.grey : null,
+                      onPressed: state.isTermsAccepted
+                          ? () {
+                              if (authCubit.signupFormKey.currentState!
+                                  .validate()) {
+                                authCubit.signUpWithEmailAndPassword();
+                              }
+                            }
+                          : null,
+                      text: AppStrings.signUp,
+                    ),
             ],
           ),
         );

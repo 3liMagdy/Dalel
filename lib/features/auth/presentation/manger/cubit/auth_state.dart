@@ -1,24 +1,36 @@
 part of 'auth_cubit.dart';
 
-sealed class AuthState extends Equatable {
-  const AuthState();
+class AuthState extends Equatable {
+  final bool isLoading;
+  final bool isSuccess;
+  final String? errorMessage;
+  final bool isTermsAccepted;
+  final bool isPasswordValid;
+
+  const AuthState({
+    this.isLoading = false,
+    this.isSuccess = false,
+    this.errorMessage,
+    this.isTermsAccepted = false,
+    this.isPasswordValid = false,
+  });
+
+  AuthState copyWith({
+    bool? isLoading,
+    bool? isSuccess,
+    String? errorMessage,
+    bool? isTermsAccepted,  bool?isPasswordValid,
+  }) {
+    return AuthState(
+      isLoading: isLoading ?? this.isLoading,
+      isSuccess: isSuccess ?? this.isSuccess,
+      errorMessage: errorMessage,
+      isTermsAccepted: isTermsAccepted ?? this.isTermsAccepted,
+      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
+    );
+  }
 
   @override
-  List<Object> get props => [];
-}
-
-final class AuthInitial extends AuthState {}
-
-
-final class AuthLoading extends AuthState {}
-
-
-final class AuthSuccess extends AuthState {}
-
-
-final class AuthFailure extends AuthState {
-
-  final String errorMessage;
-  const AuthFailure( { required this.errorMessage});
-
+  List<Object?> get props =>
+      [isLoading, isSuccess, errorMessage, isTermsAccepted, isPasswordValid];
 }

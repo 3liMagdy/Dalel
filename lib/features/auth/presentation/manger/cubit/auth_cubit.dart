@@ -1,41 +1,69 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
-  String? fristName;
+  AuthCubit() : super(const AuthState());
+
+  String? firstName;
   String? lastName;
   String? emailAddress;
   String? password;
 
+  GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
 
+  // --------------------------
+  // Checkbox Update
+  // --------------------------
 
-
-
-
-  void signUpWithEmailAndPassword()async{
-      try {
-        emit(AuthLoading());
-        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-               email: emailAddress!,
-               password: password!,
-  );
-  emit(AuthSuccess());
-} on FirebaseAuthException catch (e) {
-  if (e.code == 'weak-password') {
-    emit(AuthFailure(errorMessage: 'The password provided is too weak.')); 
-   
-  } else if (e.code == 'email-already-in-use') {
-    emit(AuthFailure(errorMessage: 'Email already in use.'));
+  void updateTermsAndConditionCheckBox({required bool newValue}) {
+    emit(state.copyWith(isTermsAccepted: newValue));
   }
-} catch (e) {
-  emit(AuthFailure(errorMessage: e.toString()));
   
+ void togglePasswordVisibility() {
+  emit(state.copyWith(isPasswordValid: !state.isPasswordValid));
 }
+  // --------------------------
+  // Sign Up
+  // --------------------------
 
+  Future<void> signUpWithEmailAndPassword() async {
+    if (!state.isTermsAccepted) {
+      emit(state.copyWith(
+        errorMessage: "You must accept terms and conditions.",
+      ));
+      return;
+    }
+
+    try {
+      emit(state.copyWith(isLoading: true, errorMessage: null));
+
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailAddress!,
+        password: password!,
+      );
+
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        emit(state.copyWith(
+          isLoading: false,
+          errorMessage: 'The password provided is too weak.',
+        ));
+      } else if (e.code == 'email-already-in-use') {
+        emit(state.copyWith(
+          isLoading: false,
+          errorMessage: 'Email already in use.',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: e.toString(),
+      ));
+    }
   }
-
 }
