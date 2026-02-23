@@ -16,6 +16,12 @@ abstract class CustomTextStyles {
     color: Colors.black,
     fontFamily: "Poppins",
   );
+   static final poppins600style12 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF6F6460),
+    fontFamily: "Poppins",
+  );
 
   static final poppins400style12 = TextStyle(
     fontSize: 12,
@@ -58,5 +64,11 @@ abstract class CustomTextStyles {
     fontWeight: FontWeight.bold,
     color: Colors.white,
     fontFamily: "Pacifico",
+  );
+   static const saira700style32 = TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+    fontFamily: "Saira",
   );
   }

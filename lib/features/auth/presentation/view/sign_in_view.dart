@@ -1,7 +1,7 @@
-
-
-import 'package:dalel/core/functions/navigation.dart';
-import 'package:dalel/core/routes/app_router.dart';
+import 'package:dalel/core/utils/app_string.dart';
+import 'package:dalel/features/auth/presentation/widgets/banner_sign_in.dart';
+import 'package:dalel/features/auth/presentation/widgets/custom_signin_from.dart';
+import 'package:dalel/features/auth/presentation/widgets/welcome_text_widget.dart';
 import 'package:flutter/material.dart';
 
 class SignInView extends StatelessWidget {
@@ -10,18 +10,18 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign In View'),
+      body: CustomScrollView(
+        
+        slivers: [
+          SliverToBoxAdapter(child: BannerSignIn()),
+          SliverToBoxAdapter(child: SizedBox(height: 32)),
+          SliverToBoxAdapter(child: WelcomeTextWidget(text: AppStrings.welcomeBack)),
+          SliverToBoxAdapter(child: SizedBox(height: 42)),
+          SliverToBoxAdapter(child: CustomSigninFrom(),)
+          ],
       ),
-      body: Center(
-        child: IconButton(
-          icon: const Icon(Icons.login),
-          iconSize: 100,
-          color: Colors.blue,
-          onPressed: (){
-            customNavigatepushReplacement(context, AppRouter.kSignUpRoute);
-          },
-      ),
-    ));
+    );
   }
 }
+
+

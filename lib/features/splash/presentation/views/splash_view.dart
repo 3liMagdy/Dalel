@@ -51,7 +51,7 @@ class _SplashViewState extends State<SplashView> {
       if(FirebaseAuth.instance.currentUser != null){
         context.go(AppRouter.kHomeRoute);
       } else {
-      context.go(AppRouter.kSignUpRoute);}
+      context.go(AppRouter.kSignInRoute);}
     } else {
       context.go(AppRouter.konBoardingRoute);
     }

@@ -1,4 +1,5 @@
 import 'package:dalel/features/auth/presentation/manger/cubit/auth_cubit.dart';
+import 'package:dalel/features/auth/presentation/view/forget_password_view.dart';
 import 'package:dalel/features/auth/presentation/view/sign_in_view.dart';
 import 'package:dalel/features/auth/presentation/view/sign_up_view.dart';
 import 'package:dalel/features/home/presentation/views/view/home_view.dart';
@@ -13,6 +14,7 @@ abstract class AppRouter {
   static const String kSignUpRoute = "/signUp";
   static const String kSignInRoute = "/signIn";
   static const String kHomeRoute = "/home";
+  static const String kForgetPasswordRoute = "/forgetPassword";
 }
 
 final GoRouter router = GoRouter(
@@ -41,8 +43,13 @@ final GoRouter router = GoRouter(
       ),
     ),
       GoRoute(
+      path: AppRouter.kForgetPasswordRoute,
+      builder: (context, state) => const ForgetPasswordView(),
+    ),
+      GoRoute(
       path: AppRouter.kHomeRoute,
       builder: (context, state) => const HomeView(),
     ),
+
   ],
 );
