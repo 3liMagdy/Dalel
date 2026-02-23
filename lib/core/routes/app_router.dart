@@ -1,6 +1,7 @@
 import 'package:dalel/features/auth/presentation/manger/cubit/auth_cubit.dart';
 import 'package:dalel/features/auth/presentation/view/sign_in_view.dart';
 import 'package:dalel/features/auth/presentation/view/sign_up_view.dart';
+import 'package:dalel/features/home/presentation/views/view/home_view.dart';
 import 'package:dalel/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:dalel/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ abstract class AppRouter {
   static const String konBoardingRoute = "/onBoarding";
   static const String kSignUpRoute = "/signUp";
   static const String kSignInRoute = "/signIn";
+  static const String kHomeRoute = "/home";
 }
 
 final GoRouter router = GoRouter(
@@ -37,6 +39,10 @@ final GoRouter router = GoRouter(
         create: (context) => AuthCubit(),
         child: const SignInView(),
       ),
+    ),
+      GoRoute(
+      path: AppRouter.kHomeRoute,
+      builder: (context, state) => const HomeView(),
     ),
   ],
 );

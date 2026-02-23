@@ -1,5 +1,3 @@
-
-
 import 'package:dalel/app/dalel_app.dart';
 import 'package:dalel/core/database/cache/cache_helper.dart';
 import 'package:dalel/core/functions/check_auth_state.dart';
@@ -17,7 +15,3 @@ Future<void> main() async {
   checkStateChanges();
   runApp(const Dalel());
 }
-
-
-
- 

@@ -6,6 +6,7 @@ import 'package:dalel/core/routes/app_router.dart';
 import 'package:dalel/core/services/service_locator.dart';
 import 'package:dalel/core/utils/app_string.dart';
 import 'package:dalel/core/utils/app_text_styles.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -47,7 +48,10 @@ class _SplashViewState extends State<SplashView> {
 
     // Use GoRouter's `go` to replace the stack.
     if (visited) {
-      context.go(AppRouter.kSignUpRoute);
+      if(FirebaseAuth.instance.currentUser != null){
+        context.go(AppRouter.kHomeRoute);
+      } else {
+      context.go(AppRouter.kSignUpRoute);}
     } else {
       context.go(AppRouter.konBoardingRoute);
     }
