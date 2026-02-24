@@ -4,6 +4,7 @@ abstract class AppStrings {
   static const String appName = "Dalel",
       //!On Boarding Strings
       signUpSuccess = "Account Created Successfully",
+      signInSuccess = "Logged In Successfully",
       skip = "Skip",
       next = "Next",
       createAccount = "Create Account",
@@ -63,11 +64,13 @@ abstract class AppStrings {
       backToHome = "Back To Home",
       //!Forgot password
       forgotPasswordPage = "Forgot Password",
+      descriptionForgotPassword1="Enter your registered email below to receive password reset instruction",
       sendResetPasswordLink = "Send Reset Passwrod Link",
+      sendVerificationCode = "Send Verification Code",
       verificationNow = "Verification Now",
       resendCode = "Resend Code",
       verifyAccount = "Verify Account",
-      enter4DigitCodeWeHaveSentTo = "Enter 4 digit code we have sent to ",
+      enter4DigitCodeWeHaveSentTo = "Enter 4 digit code we have sent to testing@gmail.com",
       haventReceivedVerificationCode = "Haven’t received verification code?";
 }
 

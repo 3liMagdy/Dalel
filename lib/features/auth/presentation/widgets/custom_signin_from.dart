@@ -1,3 +1,4 @@
+import 'package:dalel/features/auth/presentation/manger/cubit/auth_cubit.dart';
 import 'package:dalel/features/auth/presentation/widgets/custom_section_one_from.dart';
 import 'package:dalel/features/auth/presentation/widgets/custom_section_two_from.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class CustomSigninFrom extends StatelessWidget {
   Widget build(BuildContext context) {
    
     return Form(
+      key: AuthCubit().signinFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [

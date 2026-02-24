@@ -14,7 +14,7 @@ class AuthCubit extends Cubit<AuthState> {
   String? password;
 
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
-
+  GlobalKey<FormState> signinFormKey = GlobalKey<FormState>();
   // --------------------------
   // Checkbox Update
   // --------------------------
@@ -22,12 +22,12 @@ class AuthCubit extends Cubit<AuthState> {
   void updateTermsAndConditionCheckBox({required bool newValue}) {
     emit(state.copyWith(isTermsAccepted: newValue));
   }
-  
- void togglePasswordVisibility() {
-  emit(state.copyWith(isPasswordValid: !state.isPasswordValid));
-}
 
- void clearError() {
+  void togglePasswordVisibility() {
+    emit(state.copyWith(isPasswordValid: !state.isPasswordValid));
+  }
+
+  void clearError() {
     emit(state.copyWith(errorMessage: null));
   }
 
@@ -37,9 +37,9 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUpWithEmailAndPassword() async {
     if (!state.isTermsAccepted) {
-      emit(state.copyWith(
-        errorMessage: "You must accept terms and conditions.",
-      ));
+      emit(
+        state.copyWith(errorMessage: "You must accept terms and conditions."),
+      );
       return;
     }
 
@@ -54,21 +54,61 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        emit(state.copyWith(
-          isLoading: false,
-          errorMessage: 'The password provided is too weak.',
-        ));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: 'The password provided is too weak.',
+          ),
+        );
       } else if (e.code == 'email-already-in-use') {
-        emit(state.copyWith(
-          isLoading: false,
-          errorMessage: 'Email already in use.',
-        ));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: 'Email already in use.',
+          ),
+        );
       }
     } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      ));
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    if (emailAddress == null ||
+        password == null ||
+        emailAddress!.trim().isEmpty ||
+        password!.trim().isEmpty) {
+      emit(state.copyWith(errorMessage: "Email and password are required"));
+      return;
+    }
+
+    try {
+      emit(state.copyWith(isLoading: true, errorMessage: null));
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailAddress!,
+        password: password!,
+      );
+
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: 'No user found for that email.',
+          ),
+        );
+      } else if (e.code == 'wrong-password') {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: 'Wrong password provided for that user.',
+          ),
+        );
+      }
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
   }
 }

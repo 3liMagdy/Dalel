@@ -1,5 +1,5 @@
-
-
+import 'package:dalel/features/auth/presentation/widgets/bottom_navigationBar_forgotPassword.dart';
+import 'package:dalel/features/auth/presentation/widgets/custom_section_one_forgot_password.dart';
 import 'package:flutter/material.dart';
 
 class ForgetPasswordView extends StatelessWidget {
@@ -8,10 +8,15 @@ class ForgetPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Text('Forget Password View'),
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Custom_Section_One_Forgot_Password(),
+          ),
+        ],
       ),
+      bottomNavigationBar: BottomNavigationBarForgotPassword(),
     );
   }
 }

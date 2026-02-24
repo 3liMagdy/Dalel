@@ -15,7 +15,7 @@ class SignInView extends StatelessWidget {
         slivers: [
           SliverToBoxAdapter(child: BannerSignIn()),
           SliverToBoxAdapter(child: SizedBox(height: 32)),
-          SliverToBoxAdapter(child: WelcomeTextWidget(text: AppStrings.welcomeBack)),
+          SliverToBoxAdapter(child: WelcomeTextWidget(text: AppStrings.welcomeBack,)),
           SliverToBoxAdapter(child: SizedBox(height: 42)),
           SliverToBoxAdapter(child: CustomSigninFrom(),)
           ],
