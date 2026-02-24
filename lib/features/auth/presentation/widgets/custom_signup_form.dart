@@ -20,7 +20,7 @@ class CustomSignUpForm extends StatelessWidget {
       listener: (context, state) async {
         if (state.isSuccess) {
           await customshowToast(AppStrings.signUpSuccess, Colors.green);
-         customNavigatepushReplacement(context, AppRouter.kHomeRoute);
+         customNavigatepushReplacement(context, AppRouter.kSignInRoute);
         } else if (state.errorMessage != null) {
           await customshowToast(state.errorMessage!, Colors.red);
            

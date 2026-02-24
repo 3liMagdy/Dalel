@@ -7,6 +7,7 @@ import 'package:dalel/features/auth/presentation/widgets/custom_signup_form.dart
 import 'package:dalel/features/auth/presentation/widgets/have_an_account_widget.dart';
 import 'package:dalel/features/auth/presentation/widgets/welcome_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpView extends StatelessWidget {
   const SignUpView({super.key});
@@ -31,7 +32,7 @@ class SignUpView extends StatelessWidget {
                 text1: AppStrings.alreadyHaveAnAccount,
                 text2: AppStrings.signIn,
                 onTap: () {
-                    customNavigatepushReplacement(context, AppRouter.kSignInRoute);
+                   context.go(AppRouter.kSignInRoute);
                 },
               ),
             ),

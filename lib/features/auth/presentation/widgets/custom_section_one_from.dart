@@ -6,6 +6,7 @@ import 'package:dalel/features/auth/presentation/widgets/custom_text_field.dart'
 import 'package:dalel/features/auth/presentation/widgets/forgot%20_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class Custom_section_one_from extends StatelessWidget {
   Custom_section_one_from({super.key});
@@ -48,10 +49,7 @@ class Custom_section_one_from extends StatelessWidget {
             SizedBox(height: 16),
             GestureDetector(
               onTap: () {
-               customNavigate(
-                  context,
-                  AppRouter.kForgetPasswordRoute,
-                );
+               context.go(AppRouter.kForgetPasswordRoute);
               },
               child: ForgotPassword(),
             ),

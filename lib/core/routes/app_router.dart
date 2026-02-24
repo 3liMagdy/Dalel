@@ -12,11 +12,12 @@ import 'package:go_router/go_router.dart';
 abstract class AppRouter {
   static const String ksplashRoute = "/";
   static const String konBoardingRoute = "/onBoarding";
-  static const String kSignUpRoute = "/signUp";
-  static const String kSignInRoute = "/signIn";
   static const String kHomeRoute = "/home";
-  static const String kForgetPasswordRoute = "/forgetPassword";
-  static const String kVerificationView = "/verification";
+static const String kAuthRoute = "/auth";
+static const String kSignInRoute = "/auth/signin";
+static const String kSignUpRoute = "/auth/signup";
+static const String kVerificationRoute = "/auth/verification";
+static const String kForgetPasswordRoute = "/auth/forget";
 }
 
 final GoRouter router = GoRouter(
@@ -30,32 +31,41 @@ final GoRouter router = GoRouter(
       path: AppRouter.konBoardingRoute,
       builder: (context, state) => OnBoardingView(),
     ),
+ ShellRoute(
+  builder: (context, state, child) {
+    return BlocProvider(
+      create: (_) => AuthCubit(),
+      child: child,
+    );
+  },
+  routes: [
+
     GoRoute(
-      path: AppRouter.kSignUpRoute,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(),
-        child: const SignUpView(),
-      ),
+      path: "/auth/signin",
+      builder: (context, state) => const SignInView(),
     ),
+
     GoRoute(
-      path: AppRouter.kSignInRoute,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(),
-        child: const SignInView(),
-      ),
+      path: "/auth/signup",
+      builder: (context, state) => const SignUpView(),
     ),
-      GoRoute(
-      path: AppRouter.kForgetPasswordRoute,
+
+    GoRoute(
+      path: "/auth/verification",
+      builder: (context, state) => const VerifyAccountView(),
+    ),
+
+    GoRoute(
+      path: "/auth/forget",
       builder: (context, state) => const ForgetPasswordView(),
     ),
+  ],
+),
       GoRoute(
       path: AppRouter.kHomeRoute,
       builder: (context, state) => const HomeView(),
     ),
-      GoRoute(
-      path: AppRouter.kVerificationView,
-      builder: (context, state) => const VerifyAccountView(),
-    ),
+     
 
   ],
 );

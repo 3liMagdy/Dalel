@@ -1,25 +1,43 @@
+import 'package:dalel/core/utils/app_colors.dart';
 import 'package:dalel/core/utils/app_string.dart';
-import 'package:dalel/core/utils/app_text_styles.dart';
-import 'package:dalel/features/auth/presentation/widgets/welcome_text_widget.dart';
+import 'package:dalel/core/widgets/custom_btn.dart';
+import 'package:dalel/features/auth/presentation/manger/cubit/auth_cubit.dart';
+import 'package:dalel/features/auth/presentation/widgets/description_verify_account.dart';
+import 'package:dalel/features/auth/presentation/widgets/otpInput_verify_account.dart';
+import 'package:dalel/features/auth/presentation/widgets/resend_section_verifyaccount.dart';
+import 'package:dalel/features/auth/presentation/widgets/title_verify_account.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 class VerifyAccountView extends StatelessWidget {
   const VerifyAccountView({super.key});
 
+  static const _backgroundColor = Color(0xFFF5F5F5);
+  static const double _horizontalPadding = 24.0;
+  static const double _fieldHeight = 60.0;
+  static const double _fieldSpacing = 12.0;
+  
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final horizontalPadding = 16 * 2; // لأن في يمين وشمال
-    final fieldSpacing = 12 * 3; // 4 مربعات = 3 مسافات بينهم
+    final screenWidth = size.width;
 
-    final fieldWidth = (screenWidth - horizontalPadding - fieldSpacing) / 4;
+    // 4 fields -> 3 gaps between them
+    final totalGaps = _fieldSpacing * 3;
+    final availableWidth = screenWidth - (_horizontalPadding * 2) - totalGaps;
+    final fieldWidth = availableWidth / 4;
+
+    final pinTextStyle = const TextStyle(
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
+    );
 
     final defaultPinTheme = PinTheme(
-      width: 60,
-      height: 60,
-      textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+      width: fieldWidth,
+      height: _fieldHeight,
+      textStyle: pinTextStyle,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: Colors.grey.shade300),
@@ -27,105 +45,64 @@ class VerifyAccountView extends StatelessWidget {
       ),
     );
 
+    final focusedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration!.copyWith(
+        border: Border.all(color: Colors.black),
+      ),
+    );
+
     return Scaffold(
-      backgroundColor: const Color(0xffF5F5F5),
+      backgroundColor: _backgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              SizedBox(height: size.height * 0.12),
-
-              /// Title
-              WelcomeTextWidget(
-                text: AppStrings.verifyAccount,
-                style: CustomTextStyles.poppins600style28.copyWith(
-                  fontSize: 24,
-                ),
-              ),
-              const SizedBox(height: 12),
-
-              /// Description
-
-              SizedBox(
-                height: 48,
-                width: 240,
-                child: WelcomeTextWidget(
-                  text: AppStrings.enter4DigitCodeWeHaveSentTo,
-                  alignment: Alignment.center,
-                  style: CustomTextStyles.poppins400style12.copyWith(
-                    color: Color(0xff6F6460),
-                    fontSize: 14,
-                    
+          padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+          child: BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              return Column(
+                children: [
+                  SizedBox(height: size.height * 0.12),
+                  TitleVerifyAccount(),
+                  const SizedBox(height: 12),
+                  const DescriptionVerifyAccount(),
+                  const SizedBox(height: 40),
+                  OtpInputVerifyAccount(
+                    length: 4,
+                    defaultPinTheme: defaultPinTheme,
+                    focusedPinTheme: focusedPinTheme,
+                    separatorWidth: _fieldSpacing,
+                    onCompleted: (value) {
+                      context.read<AuthCubit>().updateOtpStatus(
+                        value.length == 4,
+                      );
+                    },
                   ),
-                ),
-              ),
-
-              const SizedBox(height: 40),
-
-              /// OTP
-              Pinput(
-                length: 4,
-                autofocus: true,
-                defaultPinTheme: PinTheme(
-                  width: fieldWidth,
-                  height: 60,
-                  textStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(height: 40),
+                  BottomNavigateBarInVarifyAccount(
+                    isButtonEnabled: state.isOtpComplete,
                   ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey.shade300),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                separatorBuilder: (index) => const SizedBox(width: 12),
-                focusedPinTheme: PinTheme(
-                  width: fieldWidth,
-                  height: 60,
-                  textStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onCompleted: (pin) {
-                  debugPrint(pin);
-                },
-              ),
-
-              const SizedBox(height: 40),
-
-              /// Resend text
-              const Text(
-                "Haven’t received verification code?",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-
-              const SizedBox(height: 8),
-
-              GestureDetector(
-                onTap: () {
-                  // resend logic
-                },
-                child: const Text(
-                  "Resend Code",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ),
       ),
+    );
+  }
+}
+
+class BottomNavigateBarInVarifyAccount extends StatelessWidget {
+  BottomNavigateBarInVarifyAccount({super.key, required this.isButtonEnabled});
+  bool isButtonEnabled; // This should be managed by state in a real app
+  @override
+  Widget build(BuildContext context) {
+    return CustomBtn(
+      text: AppStrings.verificationNow,
+      color: isButtonEnabled
+          ? null
+          : AppColors.offWhite, // Disable color when not enabled
+      onPressed: () {
+        // Navigate to the next screen
+      },
     );
   }
 }

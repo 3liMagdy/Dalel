@@ -15,6 +15,7 @@ abstract class CustomTextStyles {
     fontWeight: FontWeight.w600,
     color: Colors.black,
     fontFamily: "Poppins",
+    
   );
    static final poppins600style12 = TextStyle(
     fontSize: 12,
